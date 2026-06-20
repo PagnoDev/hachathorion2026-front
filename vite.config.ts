@@ -6,39 +6,37 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-// @react-pdf/renderer uses node:fs (via @react-pdf/font) which is unavailable in
-// Cloudflare Workers. This plugin stubs it out only in SSR builds so the server
-// bundle never imports node:fs. The client build gets the real module.
-function stubReactPdfForSSR() {
-  return {
-    name: "stub-react-pdf-ssr",
-    resolveId(id: string, _importer: string | undefined, options: { ssr?: boolean }) {
-      if (options?.ssr && id === "@react-pdf/renderer") {
-        return "\0@react-pdf-stub";
-      }
-    },
-    load(id: string) {
-      if (id === "\0@react-pdf-stub") {
-        return [
-          "export const pdf = () => ({ toBlob: () => Promise.resolve(new Blob()) });",
-          "export const Document = () => null;",
-          "export const Page = () => null;",
-          "export const Text = () => null;",
-          "export const View = () => null;",
-          "export const StyleSheet = { create: s => s };",
-          "export default {};",
-        ].join("\n");
-      }
-    },
-  };
-}
+const REACT_PDF_STUB = [
+  "export const pdf = () => ({ toBlob: () => Promise.resolve(new Blob()) });",
+  "export const Document = () => null;",
+  "export const Page = () => null;",
+  "export const Text = () => null;",
+  "export const View = () => null;",
+  "export const StyleSheet = { create: s => s };",
+  "export default {};",
+].join("\n");
+
+// Applied only to Nitro's Rollup build (server/Worker) — does NOT affect the Vite
+// client bundle. Stubs @react-pdf/* and fontkit so node:fs is never imported.
+const stubReactPdfNitro = {
+  name: "stub-react-pdf-nitro",
+  resolveId(id: string) {
+    if (id.startsWith("@react-pdf/") || id === "fontkit") {
+      return "\0@react-pdf-stub";
+    }
+  },
+  load(id: string) {
+    if (id === "\0@react-pdf-stub") return REACT_PDF_STUB;
+  },
+};
 
 export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
-  nitro: true,
-  vite: {
-    plugins: [stubReactPdfForSSR()],
+  nitro: {
+    rollupConfig: {
+      plugins: [stubReactPdfNitro],
+    },
   },
 });
