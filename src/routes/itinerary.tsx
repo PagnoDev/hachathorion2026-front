@@ -49,7 +49,7 @@ function ItineraryPage() {
     if (!result) return;
     setExporting(true);
     try {
-      const { downloadItineraryPDF } = await import("@/components/ItineraryPDF");
+      const { downloadItineraryPDF } = await import("@/components/ItineraryPDF.ts");
       await downloadItineraryPDF(result);
     } finally {
       setExporting(false);
