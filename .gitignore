@@ -18,6 +18,9 @@ dist-ssr
 
 # Wrangler / Cloudflare
 .wrangler/
+
+# Lockfile — let Cloudflare resolve fresh (avoids npm version mismatch)
+package-lock.json
 .dev.vars
 
 # Editor directories and files
