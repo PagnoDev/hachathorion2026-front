@@ -25,7 +25,7 @@ export function ItineraryCard({ item }: { item: ItineraryItemDto }) {
               <Navigation className="h-3 w-3" />
               {item.distanceText}
             </span>
-            <span className="capitalize text-foreground/70">· {item.placeType}</span>
+            <span className="text-foreground/70">· {{ attraction: "Atração", event: "Evento" }[item.placeType] ?? item.placeType}</span>
           </div>
           <h3 className="mt-2 text-lg font-semibold leading-tight">{item.name}</h3>
           <div className="mt-2 flex flex-wrap gap-1.5">

@@ -43,12 +43,25 @@ const TRAVEL_REASON_TO_INT: Record<string, number> = Object.fromEntries(
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
+  const method = init?.method ?? "GET";
+  console.group(`[API] ${method} ${path}`);
+  if (init?.body) console.log("Request body:", JSON.parse(init.body as string));
+
   const res = await fetch(`${BASE_URL}${path}`, {
     headers: { "Content-Type": "application/json" },
     ...init,
   });
-  if (!res.ok) throw new Error(`API ${res.status}: ${path}`);
-  return res.json() as Promise<T>;
+
+  if (!res.ok) {
+    console.error("Erro:", res.status, res.statusText);
+    console.groupEnd();
+    throw new Error(`API ${res.status}: ${path}`);
+  }
+
+  const data = await res.json();
+  console.log("Response:", data);
+  console.groupEnd();
+  return data as T;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

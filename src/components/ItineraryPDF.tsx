@@ -140,7 +140,12 @@ function ItemCard({ item }: { item: ItineraryItemDto }) {
       {item.suggestedTime && (
         <Text style={s.time}>{item.suggestedTime}</Text>
       )}
-      <Text style={s.cardName}>{item.name}</Text>
+      <Text style={s.cardName}>
+        {item.name}{" "}
+        <Text style={{ fontSize: 8, color: GRAY }}>
+          · {{ attraction: "Atração", event: "Evento" }[item.placeType] ?? item.placeType}
+        </Text>
+      </Text>
 
       {item.categories.length > 0 && (
         <View style={s.badgeRow}>
