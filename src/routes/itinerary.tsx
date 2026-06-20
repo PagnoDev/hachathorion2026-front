@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Compass, FileDown, Loader2, Sparkles } from "lucide-react";
 import { loadItinerary } from "@/lib/itineraryStore";
-import { downloadItineraryPDF } from "@/components/ItineraryPDF";
 import { ItineraryCard } from "@/components/ItineraryCard";
 import { CATEGORY_LABELS } from "@/data/mockData";
 import type {
@@ -50,6 +49,7 @@ function ItineraryPage() {
     if (!result) return;
     setExporting(true);
     try {
+      const { downloadItineraryPDF } = await import("@/components/ItineraryPDF");
       await downloadItineraryPDF(result);
     } finally {
       setExporting(false);
