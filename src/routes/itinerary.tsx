@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowLeft, Compass, FileDown, MountainSnow, Sparkles } from "lucide-react";
+import { ArrowLeft, Compass, FileDown, Loader2, Sparkles } from "lucide-react";
 import { loadItinerary } from "@/lib/itineraryStore";
+import { downloadItineraryPDF } from "@/components/ItineraryPDF";
 import { ItineraryCard } from "@/components/ItineraryCard";
 import { CATEGORY_LABELS } from "@/data/mockData";
 import type {
@@ -39,9 +40,21 @@ const ENTRY_LABEL: Record<EntryPreference, string> = {
 
 function ItineraryPage() {
   const [result, setResult] = useState<GeneratedItineraryResult | null>(null);
+  const [exporting, setExporting] = useState(false);
+
   useEffect(() => {
     setResult(loadItinerary());
   }, []);
+
+  async function handleExport() {
+    if (!result) return;
+    setExporting(true);
+    try {
+      await downloadItineraryPDF(result);
+    } finally {
+      setExporting(false);
+    }
+  }
 
   if (!result) {
     return (
@@ -64,18 +77,7 @@ function ItineraryPage() {
   const { request, itinerary } = result;
   return (
     <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10">
-      {/* Print-only header */}
-      <div className="hidden print:flex items-center gap-3 mb-6 pb-4 border-b border-gray-200">
-        <div className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground">
-          <MountainSnow className="h-5 w-5" />
-        </div>
-        <div>
-          <div className="font-semibold text-sm">Lages Smart Tourism</div>
-          <div className="text-xs text-gray-500">Serra Catarinense · Brasil</div>
-        </div>
-      </div>
-
-      <div className="flex flex-wrap items-center justify-between gap-3 print:hidden">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <Link
           to="/"
           className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground/70 hover:text-foreground"
@@ -90,10 +92,14 @@ function ItineraryPage() {
             <Compass className="h-4 w-4" /> Explorar mais atrativos
           </Link>
           <button
-            onClick={() => window.print()}
-            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+            onClick={handleExport}
+            disabled={exporting}
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
           >
-            <FileDown className="h-4 w-4" /> Exportar PDF
+            {exporting
+              ? <><Loader2 className="h-4 w-4 animate-spin" /> Gerando...</>
+              : <><FileDown className="h-4 w-4" /> Exportar PDF</>
+            }
           </button>
         </div>
       </div>
@@ -124,7 +130,7 @@ function ItineraryPage() {
 
       <div className="mt-8 space-y-10">
         {itinerary.days.map((day) => (
-          <section key={day.dayNumber} className="itinerary-day">
+          <section key={day.dayNumber}>
             <div className="mb-4 flex items-baseline justify-between gap-2 border-b border-border pb-2">
               <h2 className="text-xl font-semibold">
                 Dia {day.dayNumber} ·{" "}

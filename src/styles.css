@@ -114,24 +114,3 @@
   * { border-color: var(--color-border); }
   body { background-color: var(--color-background); color: var(--color-foreground); font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
 }
-
-@media print {
-  @page { margin: 1.5cm; }
-
-  body {
-    background: white !important;
-    color: black !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .itinerary-card {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  .itinerary-day {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-}

@@ -11,7 +11,7 @@ import type { ItineraryItemDto } from "@/types/tourism";
 
 export function ItineraryCard({ item }: { item: ItineraryItemDto }) {
   return (
-    <article className="itinerary-card rounded-2xl border border-border bg-card p-5 shadow-card">
+    <article className="rounded-2xl border border-border bg-card p-5 shadow-card">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
