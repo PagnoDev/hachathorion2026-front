@@ -1,0 +1,7 @@
+name = "hachathorion2026-front"
+main = ".output/server/index.mjs"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+[site]
+bucket = ".output/public"
