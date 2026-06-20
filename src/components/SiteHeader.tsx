@@ -19,7 +19,7 @@ export function SiteHeader() {
           </span>
           <div className="flex flex-col leading-tight">
             <span className="text-[15px] font-semibold tracking-tight">
-              Lages Smart Tourism
+              ExploraiLages
             </span>
             <span className="text-[11px] text-muted-foreground">
               Serra Catarinense · Brasil
@@ -75,7 +75,7 @@ export function SiteFooter() {
     <footer className="border-t border-border bg-secondary/40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10 grid gap-6 md:grid-cols-3 text-sm">
         <div>
-          <div className="font-semibold">Lages Smart Tourism</div>
+          <div className="font-semibold">ExploraiLages</div>
           <p className="mt-2 text-muted-foreground">
             Descubra a Serra Catarinense — roteiros, eventos e atrativos
             selecionados para visitantes.

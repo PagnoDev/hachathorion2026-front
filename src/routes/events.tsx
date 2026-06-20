@@ -13,7 +13,7 @@ import type {
 export const Route = createFileRoute("/events")({
   head: () => ({
     meta: [
-      { title: "Eventos em Lages — Lages Smart Tourism" },
+      { title: "Eventos em Lages — ExploraiLages" },
       {
         name: "description",
         content: "Veja o calendário mensal de eventos culturais e turísticos em Lages, SC.",

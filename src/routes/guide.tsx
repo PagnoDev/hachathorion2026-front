@@ -15,7 +15,7 @@ import type {
 export const Route = createFileRoute("/guide")({
   head: () => ({
     meta: [
-      { title: "Guia Turístico — Lages Smart Tourism" },
+      { title: "Guia Turístico — ExploraiLages" },
       {
         name: "description",
         content: "Explore os atrativos de Lages com filtros por categoria, acessibilidade, público e mais.",

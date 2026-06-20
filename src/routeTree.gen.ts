@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as ShareRouteImport } from './routes/share'
 import { Route as ItineraryRouteImport } from './routes/itinerary'
 import { Route as GuideRouteImport } from './routes/guide'
 import { Route as EventsRouteImport } from './routes/events'
@@ -19,6 +20,11 @@ import { Route as GuideIdRouteImport } from './routes/guide.$id'
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShareRoute = ShareRouteImport.update({
+  id: '/share',
+  path: '/share',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ItineraryRoute = ItineraryRouteImport.update({
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/events': typeof EventsRoute
   '/guide': typeof GuideRouteWithChildren
   '/itinerary': typeof ItineraryRoute
+  '/share': typeof ShareRoute
   '/terms': typeof TermsRoute
   '/guide/$id': typeof GuideIdRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/events': typeof EventsRoute
   '/guide': typeof GuideRouteWithChildren
   '/itinerary': typeof ItineraryRoute
+  '/share': typeof ShareRoute
   '/terms': typeof TermsRoute
   '/guide/$id': typeof GuideIdRoute
 }
@@ -69,20 +77,36 @@ export interface FileRoutesById {
   '/events': typeof EventsRoute
   '/guide': typeof GuideRouteWithChildren
   '/itinerary': typeof ItineraryRoute
+  '/share': typeof ShareRoute
   '/terms': typeof TermsRoute
   '/guide/$id': typeof GuideIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/events' | '/guide' | '/itinerary' | '/terms' | '/guide/$id'
+  fullPaths:
+    | '/'
+    | '/events'
+    | '/guide'
+    | '/itinerary'
+    | '/share'
+    | '/terms'
+    | '/guide/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/events' | '/guide' | '/itinerary' | '/terms' | '/guide/$id'
+  to:
+    | '/'
+    | '/events'
+    | '/guide'
+    | '/itinerary'
+    | '/share'
+    | '/terms'
+    | '/guide/$id'
   id:
     | '__root__'
     | '/'
     | '/events'
     | '/guide'
     | '/itinerary'
+    | '/share'
     | '/terms'
     | '/guide/$id'
   fileRoutesById: FileRoutesById
@@ -92,6 +116,7 @@ export interface RootRouteChildren {
   EventsRoute: typeof EventsRoute
   GuideRoute: typeof GuideRouteWithChildren
   ItineraryRoute: typeof ItineraryRoute
+  ShareRoute: typeof ShareRoute
   TermsRoute: typeof TermsRoute
 }
 
@@ -102,6 +127,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/share': {
+      id: '/share'
+      path: '/share'
+      fullPath: '/share'
+      preLoaderRoute: typeof ShareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/itinerary': {
@@ -157,6 +189,7 @@ const rootRouteChildren: RootRouteChildren = {
   EventsRoute: EventsRoute,
   GuideRoute: GuideRouteWithChildren,
   ItineraryRoute: ItineraryRoute,
+  ShareRoute: ShareRoute,
   TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport

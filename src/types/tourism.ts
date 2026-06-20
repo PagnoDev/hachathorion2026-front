@@ -129,6 +129,7 @@ export interface ItineraryItemDto {
   distanceKm: number;
   distanceText: string;
   suggestedTime: string | null;
+  isOutdoor?: boolean;
   weatherAlert: string | null;
   externalLinks: ExternalLinkDto[];
 }

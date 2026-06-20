@@ -4,12 +4,15 @@ import {
   ExternalLink,
   MapPin,
   Navigation,
+  Thermometer,
 } from "lucide-react";
 import { CategoryBadge } from "./CategoryBadge";
 import { StarRating } from "./StarRating";
+import { resolveMapUrl } from "@/lib/utils";
 import type { ItineraryItemDto } from "@/types/tourism";
 
 export function ItineraryCard({ item }: { item: ItineraryItemDto }) {
+  const mapUrl = resolveMapUrl(item.location);
   return (
     <article className="rounded-2xl border border-border bg-card p-5 shadow-card">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -40,10 +43,22 @@ export function ItineraryCard({ item }: { item: ItineraryItemDto }) {
       </div>
 
       <div className="mt-4 grid gap-2 text-sm text-foreground/80 sm:grid-cols-2">
-        <span className="inline-flex items-center gap-2">
-          <MapPin className="h-4 w-4 text-primary" />
-          {item.location.address}
-        </span>
+        {mapUrl ? (
+          <a
+            href={mapUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 hover:underline hover:text-primary"
+          >
+            <MapPin className="h-4 w-4 text-primary" />
+            {item.location.address}
+          </a>
+        ) : (
+          <span className="inline-flex items-center gap-2">
+            <MapPin className="h-4 w-4 text-primary" />
+            {item.location.address}
+          </span>
+        )}
         <span className="inline-flex items-center gap-2">
           <Clock className="h-4 w-4 text-primary" />
           {item.openingHoursText}
@@ -55,9 +70,9 @@ export function ItineraryCard({ item }: { item: ItineraryItemDto }) {
           {item.price.entryType === "free" ? "Entrada gratuita" : item.price.description}
         </span>
         <div className="flex flex-wrap gap-2">
-          {item.location.mapUrl && (
+          {mapUrl && (
             <a
-              href={item.location.mapUrl}
+              href={mapUrl}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-medium hover:bg-accent"
@@ -80,8 +95,15 @@ export function ItineraryCard({ item }: { item: ItineraryItemDto }) {
       </div>
 
       {item.weatherAlert && (
-        <div className="mt-4 flex items-start gap-2 rounded-xl bg-[oklch(0.95_0.04_230)] p-3 text-sm text-[oklch(0.35_0.1_230)]">
-          <CloudRain className="mt-0.5 h-4 w-4 shrink-0" />
+        <div className={`mt-4 flex items-start gap-2 rounded-xl p-3 text-sm ${
+          item.weatherAlert.toLowerCase().includes("frio") || item.weatherAlert.toLowerCase().includes("temperatura")
+            ? "bg-[oklch(0.93_0.04_260)] text-[oklch(0.3_0.1_260)]"
+            : "bg-[oklch(0.95_0.04_230)] text-[oklch(0.35_0.1_230)]"
+        }`}>
+          {item.weatherAlert.toLowerCase().includes("frio") || item.weatherAlert.toLowerCase().includes("temperatura")
+            ? <Thermometer className="mt-0.5 h-4 w-4 shrink-0" />
+            : <CloudRain className="mt-0.5 h-4 w-4 shrink-0" />
+          }
           <span>{item.weatherAlert}</span>
         </div>
       )}

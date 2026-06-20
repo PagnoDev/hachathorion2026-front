@@ -10,6 +10,7 @@ import {
 import { CATEGORIES, CATEGORY_LABELS } from "@/data/mockData";
 import { generateItinerary } from "@/services/api";
 import { saveItinerary } from "@/lib/itineraryStore";
+import { fetchWeatherForecast, getWeatherAlert } from "@/lib/weatherService";
 import type {
   EntryPreference,
   GenerateItineraryRequest,
@@ -20,7 +21,7 @@ import type {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Planeje sua viagem a Lages — Lages Smart Tourism" },
+      { title: "Planeje sua viagem a Lages — ExploraiLages" },
       {
         name: "description",
         content:
@@ -105,6 +106,24 @@ function HomePage() {
       departureDate: departure,
     };
     const itinerary = await generateItinerary(req);
+
+    try {
+      const lat = req.lodgingLocation.latitude ?? -27.8159;
+      const lng = req.lodgingLocation.longitude ?? -50.3261;
+      const weather = await fetchWeatherForecast(lat, lng, req.arrivalDate, req.departureDate);
+      for (const day of itinerary.days) {
+        for (const item of day.items) {
+          // isOutdoor may be absent from the API response; treat backend's non-null weatherAlert as the indicator
+          const isOutdoor = item.isOutdoor ?? (item.weatherAlert !== null);
+          const alert = getWeatherAlert(weather, day.date, item.suggestedTime, isOutdoor);
+          // Only replace if Open-Meteo gave a specific message; otherwise keep what the backend set
+          item.weatherAlert = alert ?? item.weatherAlert;
+        }
+      }
+    } catch {
+      // silently degrade — itinerary is shown without weather alerts
+    }
+
     saveItinerary({ request: req, itinerary });
     setTermsOpen(false);
     setLoading(false);

@@ -78,14 +78,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lages Smart Tourism — Descubra a Serra Catarinense" },
+      { title: "ExploraiLages — Descubra a Serra Catarinense" },
       {
         name: "description",
         content:
           "Roteiros personalizados, eventos e atrativos em Lages, Santa Catarina. Planeje sua visita à Serra Catarinense.",
       },
-      { name: "author", content: "Lages Smart Tourism" },
-      { property: "og:title", content: "Lages Smart Tourism — Descubra a Serra Catarinense" },
+      { name: "author", content: "ExploraiLages" },
+      { property: "og:title", content: "ExploraiLages — Descubra a Serra Catarinense" },
       {
         property: "og:description",
         content:
@@ -93,10 +93,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Lages Smart Tourism — Descubra a Serra Catarinense" },
-      { name: "description", content: "Lages Smart Tourism é um app para visitantes descobrirem Lages, SC, e gerarem roteiros personalizados." },
-      { property: "og:description", content: "Lages Smart Tourism é um app para visitantes descobrirem Lages, SC, e gerarem roteiros personalizados." },
-      { name: "twitter:description", content: "Lages Smart Tourism é um app para visitantes descobrirem Lages, SC, e gerarem roteiros personalizados." },
+      { name: "twitter:title", content: "ExploraiLages — Descubra a Serra Catarinense" },
+      { name: "description", content: "ExploraiLages é um app para visitantes descobrirem Lages, SC, e gerarem roteiros personalizados." },
+      { property: "og:description", content: "ExploraiLages é um app para visitantes descobrirem Lages, SC, e gerarem roteiros personalizados." },
+      { name: "twitter:description", content: "ExploraiLages é um app para visitantes descobrirem Lages, SC, e gerarem roteiros personalizados." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/36362bd4-da7b-4895-be95-e25cd7eb172c/id-preview-0577240b--0e6e2399-2b9a-44be-8cd1-eb89c02760aa.lovable.app-1781956966211.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/36362bd4-da7b-4895-be95-e25cd7eb172c/id-preview-0577240b--0e6e2399-2b9a-44be-8cd1-eb89c02760aa.lovable.app-1781956966211.png" },
     ],

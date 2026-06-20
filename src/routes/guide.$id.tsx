@@ -11,6 +11,7 @@ import {
 import { CategoryBadge } from "@/components/CategoryBadge";
 import { StarRating } from "@/components/StarRating";
 import { getAttraction } from "@/services/api";
+import { resolveMapUrl } from "@/lib/utils";
 
 export const Route = createFileRoute("/guide/$id")({
   loader: async ({ params }) => {
@@ -21,7 +22,7 @@ export const Route = createFileRoute("/guide/$id")({
   head: ({ loaderData }) => ({
     meta: loaderData
       ? [
-          { title: `${loaderData.attraction.name} — Lages Smart Tourism` },
+          { title: `${loaderData.attraction.name} — ExploraiLages` },
           { name: "description", content: loaderData.attraction.shortDescription },
           { property: "og:title", content: loaderData.attraction.name },
           { property: "og:description", content: loaderData.attraction.shortDescription },
@@ -56,6 +57,7 @@ export const Route = createFileRoute("/guide/$id")({
 
 function DetailPage() {
   const { attraction: a } = Route.useLoaderData() as { attraction: import("@/types/tourism").AttractionDto };
+  const mapUrl = resolveMapUrl(a.location);
 
   return (
     <article className="mx-auto max-w-5xl px-4 sm:px-6 py-8">
@@ -102,7 +104,18 @@ function DetailPage() {
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <Info icon={<MapPin className="h-4 w-4" />} label="Endereço">
-              {a.location.address}, {a.location.city}/{a.location.state}
+              {mapUrl ? (
+                <a
+                  href={mapUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:underline hover:text-primary"
+                >
+                  {a.location.address}, {a.location.city}/{a.location.state}
+                </a>
+              ) : (
+                <>{a.location.address}, {a.location.city}/{a.location.state}</>
+              )}
             </Info>
             <Info icon={<Clock className="h-4 w-4" />} label="Horário de funcionamento">
               {a.openingHoursText}
@@ -126,9 +139,9 @@ function DetailPage() {
           </div>
 
           <div className="mt-6 flex flex-wrap gap-2">
-            {a.location.mapUrl && (
+            {mapUrl && (
               <a
-                href={a.location.mapUrl}
+                href={mapUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"

@@ -3,10 +3,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
-      { title: "Termos de Uso — Lages Smart Tourism" },
+      { title: "Termos de Uso — ExploraiLages" },
       {
         name: "description",
-        content: "Termos de uso demonstrativos do MVP Lages Smart Tourism.",
+        content: "Termos de uso demonstrativos do MVP ExploraiLages.",
       },
     ],
   }),
@@ -24,7 +24,7 @@ function TermsPage() {
       </p>
       <div className="prose mt-8 max-w-none text-foreground/85 space-y-4">
         <p>
-          Lages Smart Tourism é um MVP demonstrativo criado para ajudar
+          ExploraiLages é um MVP demonstrativo criado para ajudar
           visitantes a descobrir atrativos e eventos em Lages, Santa Catarina.
           Ao usar este aplicativo, você reconhece e aceita o seguinte:
         </p>

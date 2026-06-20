@@ -5,7 +5,13 @@
       "Bash(curl -s \"https://hachathorion2026-production.up.railway.app/swagger/index.html\")",
       "Bash(curl -s \"https://hachathorion2026-production.up.railway.app/swagger/index.js\")",
       "Bash(curl -s \"https://hachathorion2026-production.up.railway.app/openapi/v1.json\")",
-      "Bash(cp \"c:/Users/joaov/Desktop/Lages Explorer/src/services/api.ts\" \"c:/Users/joaov/Desktop/Lages Explorer/src/services/mockApi.ts\")"
+      "Bash(cp \"c:/Users/joaov/Desktop/Lages Explorer/src/services/api.ts\" \"c:/Users/joaov/Desktop/Lages Explorer/src/services/mockApi.ts\")",
+      "Bash(node -e \"const p=require\\('./package.json'\\); const keys=['@tanstack/react-start','@tanstack/react-router','@tanstack/start']; keys.forEach\\(k => console.log\\(k, p.dependencies?.[k] || p.devDependencies?.[k] || 'not found'\\)\\)\")",
+      "Bash(node -e \"try{require\\('@tanstack/react-start/api'\\);console.log\\('api ok'\\)}catch\\(e\\){console.log\\('api not found:',e.message\\)}\")",
+      "Bash(node -e \"const p=require\\('./node_modules/@tanstack/react-start/package.json'\\); console.log\\(Object.keys\\(p.exports||{}\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node -e \"const s=require\\('@tanstack/react-start/server'\\); console.log\\(Object.keys\\(s\\).filter\\(k=>k.toLowerCase\\(\\).includes\\('server'\\)||k.toLowerCase\\(\\).includes\\('fn'\\)||k.toLowerCase\\(\\).includes\\('create'\\)\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node -e ' *)",
+      "Bash(npx tsc *)"
     ],
     "additionalDirectories": [
       "c:\\Users\\joaov\\Desktop\\Lages Explorer\\src\\services"

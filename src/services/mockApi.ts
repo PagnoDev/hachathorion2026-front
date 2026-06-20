@@ -147,10 +147,8 @@ export async function generateItinerary(
         distanceKm: Number(dist.toFixed(1)),
         distanceText: `${dist.toFixed(1)} km da sua hospedagem`,
         suggestedTime: times[i] ?? null,
-        weatherAlert:
-          d === 0 && a.isOutdoor
-            ? "Possibilidade de chuva fraca — considere levar um casaco."
-            : null,
+        isOutdoor: a.isOutdoor,
+        weatherAlert: null,
         externalLinks: a.externalLinks,
       });
     }
@@ -191,6 +189,7 @@ export async function generateItinerary(
             : 0,
         distanceText: "Evento em Lages",
         suggestedTime: "20:00",
+        isOutdoor: e.isOutdoor,
         weatherAlert: null,
         externalLinks: e.externalLinks,
       });

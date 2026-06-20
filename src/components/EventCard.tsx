@@ -1,10 +1,12 @@
 import { CalendarDays, ExternalLink, MapPin } from "lucide-react";
 import { CategoryBadge } from "./CategoryBadge";
 import { StarRating } from "./StarRating";
+import { resolveMapUrl } from "@/lib/utils";
 import type { EventDto } from "@/types/tourism";
 
 export function EventCard({ e }: { e: EventDto }) {
   const start = new Date(e.startDateTime);
+  const mapUrl = resolveMapUrl(e.location);
   return (
     <article className="rounded-2xl border border-border bg-card p-5 shadow-card">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -29,20 +31,43 @@ export function EventCard({ e }: { e: EventDto }) {
           <CalendarDays className="h-4 w-4 text-primary" />
           {start.toLocaleString("pt-BR", { dateStyle: "medium", timeStyle: "short" })}
         </span>
-        <span className="inline-flex items-center gap-2">
-          <MapPin className="h-4 w-4 text-primary" />
-          {e.location.name}, {e.location.city}/{e.location.state}
-        </span>
-        <span className="text-muted-foreground sm:col-span-2 text-xs">
-          {e.location.address}
-        </span>
+        {mapUrl ? (
+          <a
+            href={mapUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 hover:underline hover:text-primary"
+          >
+            <MapPin className="h-4 w-4 text-primary" />
+            {e.location.name}, {e.location.city}/{e.location.state}
+          </a>
+        ) : (
+          <span className="inline-flex items-center gap-2">
+            <MapPin className="h-4 w-4 text-primary" />
+            {e.location.name}, {e.location.city}/{e.location.state}
+          </span>
+        )}
+        {mapUrl ? (
+          <a
+            href={mapUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="text-muted-foreground sm:col-span-2 text-xs hover:underline hover:text-primary/70"
+          >
+            {e.location.address}
+          </a>
+        ) : (
+          <span className="text-muted-foreground sm:col-span-2 text-xs">
+            {e.location.address}
+          </span>
+        )}
       </div>
       <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
         <span className="text-sm font-medium">{e.price.description}</span>
         <div className="flex flex-wrap gap-2">
-          {e.location.mapUrl && (
+          {mapUrl && (
             <a
-              href={e.location.mapUrl}
+              href={mapUrl}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-medium hover:bg-accent"
